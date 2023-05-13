@@ -11,6 +11,10 @@ namespace Maatify\GoogleAuth;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeEnlarge;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeNone;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeShrink;
 use Endroid\QrCode\Writer\ConsoleWriter;
 use Endroid\QrCode\Writer\GifWriter;
 use Endroid\QrCode\Writer\PngWriter;
@@ -110,10 +114,10 @@ class GoogleAuth extends GoogleAuthenticator
 //            $res->logoPunchoutBackground(false);
 //        }
 
-//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeEnlarge());
-        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin());
-//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeNone());
-//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeShrink());
+//        $res->roundBlockSizeMode(new RoundBlockSizeModeEnlarge());
+        $res->roundBlockSizeMode(new RoundBlockSizeModeMargin());
+//        $res->roundBlockSizeMode(new RoundBlockSizeModeNone());
+//        $res->roundBlockSizeMode(new RoundBlockSizeModeShrink());
 
         $result = $res->build();
 
