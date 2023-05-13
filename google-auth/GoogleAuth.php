@@ -115,7 +115,7 @@ class GoogleAuth extends GoogleAuthenticator
 //        }
 
 //        $res->roundBlockSizeMode(new RoundBlockSizeModeEnlarge());
-        $res->roundBlockSizeMode(new RoundBlockSizeModeMargin());
+//        $res->roundBlockSizeMode(new RoundBlockSizeModeMargin());
 //        $res->roundBlockSizeMode(new RoundBlockSizeModeNone());
 //        $res->roundBlockSizeMode(new RoundBlockSizeModeShrink());
 
