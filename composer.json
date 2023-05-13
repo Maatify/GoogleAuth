@@ -1,5 +1,5 @@
 {
-  "name": "maatify/oauth2-client",
+  "name": "maatify/google-auth",
   "description": "Official PHP library for maatify.dev oauth2-client handler, known by our team",
   "version": "1.0.0",
   "type": "library",
