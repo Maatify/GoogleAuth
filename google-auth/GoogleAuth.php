@@ -8,26 +8,27 @@
 
 namespace Maatify\GoogleAuth;
 
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\Writer\ConsoleWriter;
+use Endroid\QrCode\Writer\GifWriter;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\SvgWriter;
+use Endroid\QrCode\Writer\WebPWriter;
 use Exception;
 use Vectorface\GoogleAuthenticator;
 
-class GoogleAuth
+class GoogleAuth extends GoogleAuthenticator
 {
     private static self $instance;
-    private GoogleAuthenticator $ga;
-
     public static function obj(): self
     {
-        if(empty(self::$instance))
-        {
+        if (empty(self::$instance)) {
             self::$instance = new self();
         }
-        return self::$instance;
-    }
 
-    public function __construct()
-    {
-        $this->ga = (new GoogleAuthenticator());
+        return self::$instance;
     }
 
     /**
@@ -35,27 +36,90 @@ class GoogleAuth
      */
     public function GenerateSecret(): string
     {
-        return $this->ga->createSecret();
+        return parent::createSecret();
     }
 
     public function CheckCode(string $secret, string $code): bool
     {
-        return $this->ga->verifyCode($secret, $code, 2);
+        return parent::verifyCode($secret, $code, 2);
     }
 
     /**
      * @throws Exception
      */
-    public function GetCode(string $secret): string
+    public function GetCode(string $secret, int $timeSlice = null): string
     {
-        return $this->ga->getCode($secret);
+        return parent::getCode($secret);
     }
 
     /**
      * @throws Exception
      */
-    public function GetImg(string $username, string $secret, string $issuer): string
+    public function GetImg(string $username,
+        string $secret,
+        string $issuer = '',
+        int $size = 260,
+        string $logo_path = '',
+        $foregroundColor = null,
+        $backgroundColor = null,
+        $logoResizeToHeight = null,
+        $logoResizeToWidth = null,
+    ): string
     {
-        return $this->ga->getQRCodeUrl($username, $secret, $issuer);
+        $uri = "otpauth://totp/$username?secret=$secret";
+
+        if (! empty($issuer)) {
+            $uri .= "&issuer=$issuer";
+        }
+
+        $res = Builder::create()
+            ->data($uri)
+            ->writer(new PngWriter)
+//            ->writer(new SvgWriter())
+//            ->writer(new WebPWriter())
+//            ->writer(new GifWriter())
+//            ->writer(new ConsoleWriter())
+            ->size($size)
+            ->margin(10)
+            ->encoding(new Encoding('UTF-8'));
+
+        $is_logo = false;
+
+        if (! empty($logo_path) && file_exists($logo_path)) {
+            $res->logoPath($logo_path);
+            $is_logo = true;
+        }
+
+        if (! empty($foregroundColor)) {
+            $res->foregroundColor($foregroundColor);
+        }
+
+        if (! empty($backgroundColor)) {
+            $res->backgroundColor($backgroundColor);
+        }
+
+        if (! empty($logoResizeToHeight) && $is_logo) {
+            $res->logoResizeToHeight($logoResizeToHeight);
+        }
+
+        if (! empty($logoResizeToWidth) && $is_logo) {
+            $res->logoResizeToWidth($logoResizeToWidth);
+        }
+
+//        if($is_logo) {
+//            $res->logoPunchoutBackground(false);
+//        }
+
+//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeEnlarge());
+        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin());
+//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeNone());
+//        $res->roundBlockSizeMode(new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeShrink());
+
+        $result = $res->build();
+
+        //            $result->getMimeType();
+        $image = $result->getDataUri();
+
+        return base64_encode(file_get_contents($image));
     }
 }
