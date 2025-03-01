@@ -11,10 +11,6 @@ namespace Maatify\GoogleAuth;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Color\Color;
 use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeEnlarge;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeNone;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeShrink;
 use Endroid\QrCode\Writer\ConsoleWriter;
 use Endroid\QrCode\Writer\GifWriter;
 use Endroid\QrCode\Writer\PngWriter;
@@ -51,7 +47,7 @@ class GoogleAuth extends GoogleAuthenticator
     /**
      * @throws Exception
      */
-    public function GetCode(string $secret, int $timeSlice = null): string
+    public function GetCode(string $secret, ?int $timeSlice = null): string
     {
         return parent::getCode($secret);
     }
