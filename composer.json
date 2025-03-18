@@ -1,7 +1,7 @@
 {
   "name": "maatify/google-auth",
   "description": "Official PHP library for maatify.dev oauth2-client handler, known by our team",
-  "version": "2.0.0003",
+  "version": "5.0.1",
   "type": "library",
   "keywords": [
     "PHP",
@@ -40,13 +40,7 @@
       "role": "IOS Developer"
     }
   ],
-  "config": {
-    "platform": {
-      "php": "8.2.0"
-    }
-  },
   "require": {
-    "php": ">=8.2",
     "vectorface/googleauthenticator": "^3.3"
   },
   "autoload": {
